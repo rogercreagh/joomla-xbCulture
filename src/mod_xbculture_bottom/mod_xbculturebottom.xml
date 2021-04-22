@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.3" method="upgrade" client="site">
+	<name></name>
+	<author>Roger Creagh-Osborne</author>
+	<creationDate></creationDate>
+	<copyright>Copyright (C) 2021 Roger Creagh-Osborne. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+	<authorEmail>roger@crosborne.co.uk</authorEmail>
+	<authorUrl>www.crosborne.co.uk</authorUrl>
+	<version>0.1.0</version>
+	<description></description>
+	<files>
+		<filename>mod_.xml</filename>
+		<filename module="mod_">mod_.php</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<media destination="mod_" folder="media">
+        <filename>index.html</filename>
+        <folder>css</folder>
+    </media>
+    <config>
+        <fields name="params">
+        	<fieldset name="basic">
+		</fieldset>
+	</fields>
+    </config>
+    <updateservers>
+		<server type="extension" priority="1" name="SunUpDwon Module Updates">
+			https://www.crosborne.uk/jupdates/_updater.xml
+		</server>
+	</updateservers>
+</extension>
+		
