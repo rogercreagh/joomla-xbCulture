@@ -23,10 +23,11 @@ class modXbcultureRecentHelper {
 		$books = array();
 		if ($usefilms) {
 			$query = $db->getQuery(true);
-			$query->select('f.id AS id, '.$order.' AS odate, f.title, f.poster_img AS image')
+			$query->select('f.id AS id, '.$order.' AS odate, f.title, f.poster_img AS image, "film" AS com')
 			->from('#__xbfilms AS f');
 			if ($order == 'rev_date') {
 				$query->join('INNER','#__xbfilmreviews AS r ON film_id = f.id');
+				$query->select('r.rating');
 			}
 			$query->order($order.' DESC');
 			$db->setQuery($query,0,$cnt);
@@ -34,10 +35,11 @@ class modXbcultureRecentHelper {
 		}
 		if ($usebooks) {
 			$query = $db->getQuery(true);
-			$query->select('b.id AS id, '.$order.' AS odate, b.title, b.cover_img AS image')
+			$query->select('b.id AS id, '.$order.' AS odate, b.title, b.cover_img AS image, "book" AS com')
 			->from('#__xbbooks AS b');
 			if ($order == 'rev_date') {
 				$query->join('INNER','#__xbbookreviews AS r ON book_id = b.id');
+				$query->select('r.rating');
 			}
 			$query->order($order.' DESC');
 			$db->setQuery($query,0,$cnt);

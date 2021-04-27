@@ -20,7 +20,7 @@ XbcultureHelper::checkComponent('com_xbbooks');
 $items = modXbcultureRecentHelper::getitems( $params );
 
 $document	= Factory::getDocument();
-$document->addStyleSheet(JURI::base(true).'/media/com_xbpeople/css/xb.css');
+$document->addStyleSheet(JURI::base(true).'/media/com_xbpeople/css/xbculture.css');
 require( JModuleHelper::getLayoutPath( 'mod_xbculture_recent' ));
 
 ?>

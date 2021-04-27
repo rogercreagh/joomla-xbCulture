@@ -10,14 +10,26 @@
 //no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 ?>
-<ul>
+<div class="xbpretext xbmb8">
+	<?php echo $params->get('pretext'); ?>
+</div>
+
+<ul style="list-style:none; margin-left:0;">
 <?php foreach ($items as $item) {
-  $link='index.php?option=com_xb'.$item->component.'s&view='.$item->component.'&id='.$item->id;
-	echo '<li><a href="'.$link.'">'.$item->title.'</a> ('.$item->component.')</li>';
-}?>
+  $link='index.php?option=com_xb'.$item->com.'s&view='.$item->comp.'&id='.$item->id; ?>
+	<li><span class="icon-<?php echo ($item->com=='film"'? 'screen xbfilm':'book xbbook');?>"></span>
+    	<a href="<?php echo $link;?>"><?php echo $item->title;?></a>
+    	<br /><span class="xbml20">&nbsp;
+    	<?php if ($params->get('reviewed')) : ?>
+        	<span class="xbhlt xbbold"><?php echo $item->rating;?></span><span class="icon-<?php echo ($item->rating==0 ? 'thumbs-down xbred':'star xbgold');?>"> </span>
+    	<?php endif; ?>
+    	<span class="xb09"><?php echo HtmlHelper::date($item->odate , Text::_('d M Y'));?></span></span></li>
+<?php } ?>
 </ul>
-<?php foreach ($items as $item) {
-  echo '<img src="'.JURI::root().$item->image.'" width="49%" />';
-}?>
+<div class="xbposttext">
+	<?php echo $params->get('posttext'); ?>
+</div>
