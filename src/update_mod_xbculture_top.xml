@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<updates>
+	<update>
+		<name>xbCulture-Top</name>
+		<description>xbCulture Top module - Displays a number of highest rated items</description>
+		<element>mod_xbculture_top</element>
+		<type>module</type>
+		<client>0</client>
+		<version>0.1.0</version>
+		<infourl>
+			https://www.crosborne.co.uk/xbculture-top/changelog
+		</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://www.crosborne.co.uk/index.php/downloads?download=</downloadurl>
+		</downloads>
+		<maintainer>Roger C-O</maintainer>
+		<maintainerurl>http://crosborne.co.uk/xbculture</maintainerurl>
+		<targetplatform name="joomla" version="3.(9|10)"	/>	
+	</update>
+</updates>		

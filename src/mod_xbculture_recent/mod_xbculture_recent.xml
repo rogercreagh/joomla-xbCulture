@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.3" method="upgrade" client="site">
+	<name>xbCulture-Recent</name>
+	<author>Roger Creagh-Osborne</author>
+	<creationDate>26 April 2021</creationDate>
+	<copyright>Copyright (C) 2021 Roger Creagh-Osborne. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+	<authorEmail>roger@crosborne.co.uk</authorEmail>
+	<authorUrl>www.crosborne.co.uk</authorUrl>
+	<version>0.1.0</version>
+	<description></description>
+	<files>
+		<filename>mod_xbculture_recent.xml</filename>
+		<filename module="mod_xbculture_recent">mod_xbculture_recent.php</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<media destination="mod_xbculture_recent" folder="media">
+        <filename>index.html</filename>
+        <folder>css</folder>
+    </media>
+    <config>
+        <fields name="params">
+        	<fieldset name="basic">
+<!-- Params needed
+	itemcnt - number of items
+	components - choice from those installed so custom field in xbpeople
+	only items with rating/review - use rating date
+	or include unrated items - use catalogue date
+ -->    
+ 			<field name="itemcnt" type="number" default="3" 
+ 				label="Items to show" description="How many items from each selected component to show in module" 
+ 				min="1" max="10" size="2" />
+			<field name="pretext" type="textarea" default="" 
+				label="Text before" description="Optional text to display above times" 
+				rows="5" cols="35" />
+			<field name="usebooks" type="radio" 
+				default="0" 
+				label="xbBook items" description="include items from xbBooks if available" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="usefilms" type="radio" 
+				label="xbFilm items" description="include items from xbFilms if available" 
+				default="0" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="reviewed" type="radio" 
+				label="All or Rated only" description="only include rated items and use review date to select, or include all items and use catalogued date to select." 
+				default="0" >
+				<option value="0">All Items</option>
+				<option value="1">Rated Only</option>
+			</field>			
+			<field name="posttext" type="textarea" 				
+				label="Text after" description="Text to display below times"  
+				default="" rows="5" cols="35" />
+ 				    	
+			</fieldset>
+		</fields>
+    </config>
+    <updateservers>
+		<server type="extension" priority="1" name="xbCulture_Recent Updates">
+			https://www.crosborne.uk/jupdates/mod_xbculture_recent_updater.xml
+		</server>
+	</updateservers>
+</extension>
+		
