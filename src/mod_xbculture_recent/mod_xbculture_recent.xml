@@ -7,8 +7,8 @@
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
 	<authorEmail>roger@crosborne.co.uk</authorEmail>
 	<authorUrl>www.crosborne.co.uk</authorUrl>
-	<version>0.1.0</version>
-	<description></description>
+	<version>0.1.1</version>
+	<description>Show recent items from xbCulture components</description>
 	<files>
 		<filename>mod_xbculture_recent.xml</filename>
 		<filename module="mod_xbculture_recent">mod_xbculture_recent.php</filename>
@@ -23,40 +23,33 @@
     <config>
         <fields name="params">
         	<fieldset name="basic">
-<!-- Params needed
-	itemcnt - number of items
-	components - choice from those installed so custom field in xbpeople
-	only items with rating/review - use rating date
-	or include unrated items - use catalogue date
- -->    
- 			<field name="itemcnt" type="number" default="3" 
- 				label="Items to show" description="How many items from each selected component to show in module" 
- 				min="1" max="10" size="2" />
-			<field name="pretext" type="textarea" default="" 
-				label="Text before" description="Optional text to display above times" 
-				rows="5" cols="35" />
-			<field name="usebooks" type="radio" 
-				default="0" 
-				label="xbBook items" description="include items from xbBooks if available" >
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-			<field name="usefilms" type="radio" 
-				label="xbFilm items" description="include items from xbFilms if available" 
-				default="0" >
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-			<field name="reviewed" type="radio" 
-				label="All or Rated only" description="only include rated items and use review date to select, or include all items and use catalogued date to select." 
-				default="0" >
-				<option value="0">All Items</option>
-				<option value="1">Rated Only</option>
-			</field>			
-			<field name="posttext" type="textarea" 				
-				label="Text after" description="Text to display below times"  
-				default="" rows="5" cols="35" />
- 				    	
+	 			<field name="itemcnt" type="number" default="3" 
+	 				label="Items per component" description="How many items from each selected component to show in the module" 
+	 				min="1" max="10" size="2" />
+				<field name="pretext" type="textarea" default="" 
+					label="Text before" description="Optional text to display above times" 
+					rows="5" cols="35" />
+				<field name="usebooks" type="radio" 
+					default="0" 
+					label="xbBook items" description="include items from xbBooks if available" >
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="usefilms" type="radio" 
+					label="xbFilm items" description="include items from xbFilms if available" 
+					default="0" >
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="reviewed" type="radio" 
+					label="All or Rated only" description="only include rated items and use review date for order, or include all items and use catalogued date for order." 
+					default="0" >
+					<option value="0">All Items</option>
+					<option value="1">Rated Only</option>
+				</field>			
+				<field name="posttext" type="textarea" 				
+					label="Text after" description="Text to display below times"  
+					default="" rows="5" cols="35" />				    	
 			</fieldset>
 		</fields>
     </config>
