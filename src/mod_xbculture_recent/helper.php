@@ -30,6 +30,7 @@ class modXbcultureRecentHelper {
 				$query->select('r.rating');
 			}
 			$query->order($order.' DESC');
+			$query->group('id');
 			$db->setQuery($query,0,$cnt);
 			$films = $db->loadObjectList();
 		}
@@ -51,7 +52,7 @@ class modXbcultureRecentHelper {
 	}
 		
 	static function dateSort( $a, $b ) {
-		return $a->odate == $b->odate ? 0 : ( $a->odate > $b->odate ) ? -1 : 1;
+		return $a->odate == $b->odate ? 0 : (( $a->odate > $b->odate ) ? -1 : 1);
 	}
 }
 
