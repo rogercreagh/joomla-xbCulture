@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_recent/helper.php
- * @version 0.1.0 26th April 2021
+ * @version 0.1.2 1st May 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -17,7 +17,7 @@ class modXbcultureRecentHelper {
 		$cnt = $params->get('itemcnt');
 		$usebooks = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usebooks');
 		$usefilms = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usefilms');
-		$order = $params->get('itemcnt') ? 'rev_date' : 'cat_date';
+		$order = $params->get('reviewed') ? 'rev_date' : 'cat_date';
 		$db = Factory::getDbo();
 		$films = array();
 		$books = array();
@@ -30,7 +30,7 @@ class modXbcultureRecentHelper {
 				$query->select('r.rating');
 			}
 			$query->order($order.' DESC');
-			$query->group('id');
+//			$query->group('id');
 			$db->setQuery($query,0,$cnt);
 			$films = $db->loadObjectList();
 		}
