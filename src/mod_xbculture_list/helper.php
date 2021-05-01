@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_list/helper.php
- * @version 0.1.0 26th April 2021
+ * @version 0.1.0 1st May 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,45 +15,164 @@ class modXbcultureListHelper {
 	
 	static function getItems($params) {
 		$cnt = $params->get('itemcnt');
-		$usebooks = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usebooks');
-		$usefilms = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usefilms');
-		$order = $params->get('itemcnt') ? 'rev_date' : 'cat_date';
+		$comp = $params->get('comp');
+//		$usebooks = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usebooks');
+//		$usefilms = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usefilms');
+		$filt = $params->get('filter');
+		$display = $params->get('display');
+		$sortby = $params->get('sortby');
+		$sortdir = $params->get('sortdir');
+		$reviewed = $params->get('reviewed');
+		$filter = $params->get('filter');
+		switch ($sortby) {
+			case 'dat':
+				$order = (($reviewed==1) ||($filter=='rating')) ? 'rev_date' : 'cat_date';
+				break;
+			case 'rat':
+				$order = 'r.rating';	
+				break;				
+			default:
+				$order = 'a.title';
+				break;
+		}
+		switch ($comp) {
+			case 'xbbooks':
+				$ttype = 'com_xbbooks.book';
+				$img = 'cover_img';
+				$itemid = 'book_id';
+				$tablea = '#__xbbooks';
+				$rtable = '#__xbbookreviews';
+				$ptable = '#__xbbookperson';
+				$catfilt = $params->get('bcatfilt');
+				$pfilt = $params->get('bperfilt');
+				$prole = $params->get('brole');
+				break;
+			case 'xbfilms':
+				$ttype = 'com_xbfilms.film';
+				$img = 'poster_img';
+				$itemid = 'film_id';
+				$tablea = '#__xbfilms';
+				$rtable = '#__xbfilmreviews';
+				$ptable = '#__xbfilmperson';
+				$catfilt = $params->get('fcatfilt');
+				$pfilt = $params->get('fperfilt');
+				$prole = $params->get('frole');
+				break;				
+			default:
+				
+			break;
+		}
+		
 		$db = Factory::getDbo();
-		$films = array();
-		$books = array();
-		if ($usefilms) {
-			$query = $db->getQuery(true);
-			$query->select('f.id AS id, '.$order.' AS odate, f.title, f.poster_img AS image, "film" AS com')
-			->from('#__xbfilms AS f');
-			if ($order == 'rev_date') {
-				$query->join('INNER','#__xbfilmreviews AS r ON film_id = f.id');
-				$query->select('r.rating');
-			}
-			$query->order($order.' DESC');
-			$query->group('id');
-			$db->setQuery($query,0,$cnt);
-			$films = $db->loadObjectList();
+		$items = array();
+		$query = $db->getQuery(true);
+		$query->select('a.id AS id, a.cat_date, a.title, a.'.$img.' AS image')
+		->from($tablea.' AS a');
+		if (($sortby == 'rat') || ($reviewed==1) || ($filter == 'rating')){
+			$query->select('r.rev_date, r.rating');
+			$query->join('INNER',$rtable.' AS r ON '.$itemid.' = a.id');
 		}
-		if ($usebooks) {
-			$query = $db->getQuery(true);
-			$query->select('b.id AS id, '.$order.' AS odate, b.title, b.cover_img AS image, "book" AS com')
-			->from('#__xbbooks AS b');
-			if ($order == 'rev_date') {
-				$query->join('INNER','#__xbbookreviews AS r ON book_id = b.id');
-				$query->select('r.rating');
-			}
-			$query->order($order.' DESC');
-			$db->setQuery($query,0,$cnt);
-			$books = $db->loadObjectList();
+		switch ($filter) {
+			case 'cat':
+				$query->where('a.catid = '.$db->quote($catfilt));
+				break;
+			case 'tag':
+				$tagfilt = $params->get('tagfilt');
+				$taglogic = $params->get('taglogic');
+				if (!empty($tagfilt)) {
+					$tagfilt = ArrayHelper::toInteger($tagfilt);
+					
+					if ($taglogic==2) { //exclude anything with a listed tag
+						// subquery to get a virtual table of item ids to exclude
+						$subQuery = '(SELECT content_item_id FROM #__contentitem_tag_map
+					WHERE type_alias = '.$db->quote($ttype).
+					' AND tag_id IN ('.implode(',',$tagfilt).'))';
+						$query->where('a.id NOT IN '.$subQuery);
+					} else {
+						if (count($tagfilt)==1)	{ //simple version for only one tag
+							$query->join( 'INNER', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+									. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id') )
+									->where(array( $db->quoteName('tagmap.tag_id') . ' = ' . $tagfilt[0],
+											$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote($ttype) )
+											);
+						} else { //more than one tag
+							if ($taglogic == 1) { // match ALL listed tags
+								// iterate through the list adding a match condition for each
+								for ($i = 0; $i < count($tagfilt); $i++) {
+									$mapname = 'tagmap'.$i;
+									$query->join( 'INNER', $db->quoteName('#__contentitem_tag_map', $mapname).
+											' ON ' . $db->quoteName($mapname.'.content_item_id') . ' = ' . $db->quoteName('a.id'));
+									$query->where( array(
+											$db->quoteName($mapname.'.tag_id') . ' = ' . $tagfilt[$i],
+											$db->quoteName($mapname.'.type_alias') . ' = ' . $db->quote($ttype))
+											);
+								}
+							} else { // match ANY listed tag
+								// make a subquery to get a virtual table to join on
+								$subQuery = $db->getQuery(true)
+								->select('DISTINCT ' . $db->quoteName('content_item_id'))
+								->from($db->quoteName('#__contentitem_tag_map'))
+								->where( array(
+										$db->quoteName('tag_id') . ' IN (' . implode(',', $tagfilt) . ')',
+										$db->quoteName('type_alias') . ' = ' . $db->quote($ttype))
+										);
+								$query->join(
+										'INNER',
+										'(' . $subQuery . ') AS ' . $db->quoteName('tagmap')
+										. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+										);
+								
+							} //endif all/any
+						} //endif one/many tag
+					}
+				} //if not empty tagfilt
+				break;
+			case 'rating':
+				$query->where('r.rating = '.$db->quote($params->get('ratfilt')));
+				break;
+			case 'person':
+				if (is_numeric($pfilt)) {
+					$query->join('LEFT',$db->quoteName($ptable, 'p') . ' ON ' .$db->quoteName('a.id') . ' = ' . $db->quoteName('p.'.$itemid)); 
+					$query->where('p.person_id = '.$db->quote($pfilt));
+					if ($prole != '') {
+						$query->where('p.role = '.$db->quote($prole));
+					}
+				}
+				break;
+			
+			default:
+				
+				break;
+		}		
+		
+		$query->order($order.' '.$sortdir);
+		if ($order != 'title') {
+			$query->order($order.' ASC');
 		}
-		$items = array_merge($films,$books);
-		usort($items,'modXbcultureRecentHelper::dateSort');
-		return $items;
+		if ($sortby=='dat') {
+			$db->setQuery($query,0,$cnt);
+		} else {
+			$db->setQuery($query); //e may get more than we want so we'll randomly pick some after 
+		}
+			
+		$items = $db->loadObjectList();
+		
+		//if number returned more than $cnt pick random items from the list
+		if (count($items)>$cnt) {
+			$randkeys = array_rand($items,$cnt);
+			$randitems = array();
+			foreach ($randkeys as $k) {
+				$randitems[]=$items[$k];
+			}
+			$items = $randitems;
+		}
+		return $items;		
 	}
 		
 	static function dateSort( $a, $b ) {
 		return $a->odate == $b->odate ? 0 : (( $a->odate > $b->odate ) ? -1 : 1);
 	}
+			
 }
 
 ?>
