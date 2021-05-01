@@ -16,12 +16,14 @@
 		<filename>helper.php</filename>
 		<folder>tmpl</folder>
 	</files>
+	<!-- 
 	<media destination="mod_xbculture_list" folder="media">
         <filename>index.html</filename>
         <folder>css</folder>
     </media>
+	 -->
     <config>
-        <fields name="params">
+        <fields name="params" addfieldpath="administrator/components/com_people/models/fields">
         	<fieldset name="basic">
  <!-- 
  pretext, posttext - text
@@ -42,36 +44,52 @@
  
   -->
 	 			<field name="itemcnt" type="number" default="5" 
-	 				label="Items to list" description="How many items from selected component to show in the module" 
-	 				min="0" max="100" size="2" />
+	 				label="Items to list" description="How many items from selected component to show in the module." 
+	 				min="1" max="50" size="2" />
 				<field name="pretext" type="textarea" default="" 
 					label="Text before" description="Optional text to display above times" 
 					rows="5" cols="35" />
 				<field name="comp" type="radio" 
 					default="" required="true"
-					label="Component" description="select which xbCulture component to get items from" >
+					label="Component" description="select which xbCulture component to get items from" 
+		  			class="btn-group">
 					<option value="xbbooks">xbBooks</option>
 					<option value="xbfilms">xbFilms</option>
 				</field>
-				<field name="filter" type="radio" 
+				<field name="filter" type="list" 
 					label="Filter by" description="filter type to select items" 
 					default="" >
+					<option value="">No filter</option>
 					<option value="cat">Category</option>
 					<option value="tag">Tags</option>
 					<option value="rating">Rating</option>
 					<option value="person">Person</option>
 				</field>
-				<field name="catfilt" type="category"
+				<field name="reviewed" type="radio" 
+					label="All or Rated only" description="only include rated items and use review date for order, or include all items and use catalogued date for order." 
+					default="0" 
+		  			class="btn-group">
+					<option value="0">All Items</option>
+					<option value="1">Rated Only</option>
+				</field>			
+				<field name="bcatfilt" type="category"
 					label="Category" Description="Category to filter by"
 				 	extension="com_xbbooks"
 				 	showon="comp:xbbooks[AND]filter:cat"
 					>
 					<option value="">JOPTION_SELECT_CATEGORY</option>
 				</field>
+				<field name="fcatfilt" type="category"
+					label="Category" Description="Category to filter by"
+				 	extension="com_xbbooks"
+				 	showon="comp:xbfilms[AND]filter:cat"
+					>
+					<option value="">JOPTION_SELECT_CATEGORY</option>
+				</field>
 				<field name="subcats" type="radio"
 					default=""
 					label="Include sub-Cats" description="Include items in all subcategories of selected category"
-		  			class="btn-group btn-small"
+		  			class="btn-group"
 		  			showon="catfilt!:"
 					>
 					<option value="0">JNO</option>
@@ -83,12 +101,14 @@
 					multiple="true"
 					class="multipleTags"
 					mode="ajax"
+					showon="filter:tags"
 				/>
 				<field name="taglogic" type="radio"
 					default="0"
 					label="Multi Tag Logic"
 					description="If multiple tags are selected can require all, or any, or none of the selected tags to be present"
-		  			class="btn-group btn-small"
+		  			class="btn-group"
+					showon="filter:tags"
 					>
 					<option value="1">All</option>
 					<option value="0">Any</option>
@@ -99,9 +119,9 @@
 	 				min="0" max="7" size="2"
 	 				showon="filter:rating" />
 				<field
-					name="perfilt" type="people"
-					label="Person" description="Show only items linked to a particular person"
-					showon="filter:person"
+					name="bperfilt" type="bookpeople"
+					label="Person" description="Show only books linked to a particular person"
+					showon="filter:person[AND]comp:xbbooks"
 					>		
 					<option value="">Start to type first or last name</option>
 					<option value="any">Any person with role</option>
@@ -118,6 +138,14 @@
 					<option value="men">Mentioned</option>
 					<option value="other">Other</option>
 				</field>	
+				<field
+					name="fperfilt" type="filmpeople"
+					label="Person" description="Show only films linked to a particular person"
+					showon="filter:person[AND]comp:xbbooks"
+					>		
+					<option value="">Start to type first or last name</option>
+					<option value="any">Any person with role</option>
+				</field>
 				<field name="frole" type="list"
 					default=""
 					label="Role in Film" description="Filter by specific role"
@@ -135,21 +163,21 @@
 					label="Display type" description="Image will automatically only select items with an image, mouseover image will be title and click image will link to item page"
 		  			class="btn-group btn-small"
 					>
-					<option value="0">Title</option>
-					<option value="1">Image</option>
+					<option value="tit">Title</option>
+					<option value="img">Image</option>
 				</field>
 	 			<field name="imgrow" type="number" default="3" 
 	 				label="Images per row" description="How many images to show in each row in the module width" 
 	 				min="1" max="5" size="2"
-	 				showon="display:1" />
+	 				showon="display:img" />
 				<field name="sortby" type="radio"
 					default=""
 					label="Sort list" description="Order to present the list in"
 		  			class="btn-group btn-small"
 					>
-					<option value="0">Title</option>
-					<option value="1">Date</option>
-					<option value="2">Rating</option>
+					<option value="tit">Title</option>
+					<option value="dat">Date</option>
+					<option value="rat">Rating</option>
 				</field>
 				<field name="sortdir" type="radio"
 					default=""
