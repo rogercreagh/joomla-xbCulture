@@ -41,7 +41,7 @@
  order title|date/rating - radio
  
   -->
-	 			<field name="itemcnt" type="number" default="3" 
+	 			<field name="itemcnt" type="number" default="5" 
 	 				label="Items to list" description="How many items from selected component to show in the module" 
 	 				min="0" max="100" size="2" />
 				<field name="pretext" type="textarea" default="" 
