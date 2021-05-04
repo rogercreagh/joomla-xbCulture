@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_list/helper.php
- * @version 0.1.0 1st May 2021
+ * @version 0.1.0 4th May 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -131,12 +131,12 @@ class modXbcultureListHelper {
 				$query->where('r.rating = '.$db->quote($params->get('ratfilt')));
 				break;
 			case 'person':
+				$query->join('LEFT',$db->quoteName($ptable, 'p') . ' ON ' .$db->quoteName('a.id') . ' = ' . $db->quoteName('p.'.$itemid)); 
 				if (is_numeric($pfilt)) {
-					$query->join('LEFT',$db->quoteName($ptable, 'p') . ' ON ' .$db->quoteName('a.id') . ' = ' . $db->quoteName('p.'.$itemid)); 
 					$query->where('p.person_id = '.$db->quote($pfilt));
-					if ($prole != '') {
-						$query->where('p.role = '.$db->quote($prole));
-					}
+				}
+				if ($prole != '') {
+					$query->where('p.role = '.$db->quote($prole));
 				}
 				break;
 			

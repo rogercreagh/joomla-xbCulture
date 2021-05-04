@@ -2,7 +2,7 @@
 <extension type="module" version="3.3" method="upgrade" client="site">
 	<name>xbCulture-List</name>
 	<author>Roger Creagh-Osborne</author>
-	<creationDate>28 April 2021</creationDate>
+	<creationDate>4th May 2021</creationDate>
 	<copyright>Copyright (C) 2021 Roger Creagh-Osborne. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
 	<authorEmail>roger@crosborne.co.uk</authorEmail>
@@ -23,26 +23,8 @@
     </media>
 	 -->
     <config>
-        <fields name="params" addfieldpath="administrator/components/com_people/models/fields">
+        <fields name="params" addfieldpath="administrator/components/com_xbpeople/models/fields">
         	<fieldset name="basic">
- <!-- 
- pretext, posttext - text
- select source component books|films - radio
- itemcnt - number : number of items to display, 0 = all
- filter cat|tag|rating|person - checkboxes/radio
- 	catfilt - list
- 		incsub - radio y/n
- 	tagfilt - list
- 		multitag - radio all/any
- 	ratfilt - numeric
- 	perfilt - list
-	 	perfrole - list
- 		perbrole - list
-
- display title|image - radio
- order title|date/rating - radio
- 
-  -->
 	 			<field name="itemcnt" type="number" default="5" 
 	 				label="Items to list" description="How many items from selected component to show in the module." 
 	 				min="1" max="50" size="2" 
@@ -83,12 +65,13 @@
 				</field>
 				<field name="fcatfilt" type="category"
 					label="Category" Description="Category to filter by"
-				 	extension="com_xbbooks"
+				 	extension="com_xbfilms"
 				 	showon="comp:xbfilms[AND]filter:cat"
 					>
 					<option value="">JOPTION_SELECT_CATEGORY</option>
 				</field>
-				<field name="subcats" type="radio"
+<!-- 
+ 				<field name="subcats" type="radio"
 					default=""
 					label="Include sub-Cats" description="Include items in all subcategories of selected category"
 		  			class="btn-group"
@@ -97,6 +80,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+ -->
 				<field name="tagfilt" type="tag"
 					label="Tag(s)"
 					description="Select tags to filter by, multiple tags can select either items with all or anyy of the tags"
@@ -131,19 +115,19 @@
 				<field name="brole" type="list"
 					default=""
 					label="Role in Book" description="Filter by specific role"
-		  			class="btn-group btn-small radiotop"
-					showon="comp:xbbooks[AND]filter:person[AND]perfilt!:"			
+		  			class="btn-group btn-small"
+					showon="comp:xbbooks[AND]filter:person"			
 					>
-		  			<option value="any">Any</option>
-					<option value="aut">Author</option>
-					<option value="ed">Editor</option>
-					<option value="men">Mentioned</option>
+		  			<option value="">Any</option>
+					<option value="author">Author</option>
+					<option value="editor">Editor</option>
+					<option value="mention">Mentioned</option>
 					<option value="other">Other</option>
 				</field>	
 				<field
 					name="fperfilt" type="filmpeople"
 					label="Person" description="Show only films linked to a particular person"
-					showon="filter:person[AND]comp:xbbooks"
+					showon="filter:person[AND]comp:xbfilms"
 					>		
 					<option value="">Start to type first or last name</option>
 					<option value="any">Any person with role</option>
@@ -152,13 +136,14 @@
 					default=""
 					label="Role in Film" description="Filter by specific role"
 		  			class="btn-group btn-small radiotop"
-					showon="comp:xbfilms[AND]filter:person[AND]perfilt!:"			
+					showon="comp:xbfilms[AND]filter:person"			
 					>
-		  			<option value="any">Any</option>
-					<option value="dir">Director</option>
-					<option value="crew">Editor</option>
-					<option value="cast">Mentioned</option>
-					<option value="app">Other</option>
+		  			<option value="">Any</option>
+					<option value="director">Director</option>
+					<option value="producer">Producer</option>
+					<option value="crew">Crew</option>
+					<option value="actor">Cast</option>
+					<option value="appearsin">Appears as Self</option>
 				</field>
 					
 				<field name="display" type="radio"

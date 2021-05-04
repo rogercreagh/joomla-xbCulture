@@ -23,7 +23,7 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 		<?php echo $params->get('pretext'); ?>
 	</div>
 	
-	<?php if ($params->get('display')==0) : ?>
+	<?php if ($params->get('display')=='tit') : ?>
 		<ul style="list-style:none; margin-left:0;">
 		<?php foreach ($items as $item) : ?>
 			<li><span class="icon-<?php echo ($comp=='xbfilms'? 'screen xbfilm':'book xbbook');?>"></span>
