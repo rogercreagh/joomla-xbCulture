@@ -45,10 +45,12 @@
   -->
 	 			<field name="itemcnt" type="number" default="5" 
 	 				label="Items to list" description="How many items from selected component to show in the module." 
-	 				min="1" max="50" size="2" />
+	 				min="1" max="50" size="2" 
+	 			/>
 				<field name="pretext" type="textarea" default="" 
 					label="Text before" description="Optional text to display above times" 
-					rows="5" cols="35" />
+					rows="5" cols="35" 
+				/>
 				<field name="comp" type="radio" 
 					default="" required="true"
 					label="Component" description="select which xbCulture component to get items from" 
@@ -157,19 +159,50 @@
 					<option value="crew">Editor</option>
 					<option value="cast">Mentioned</option>
 					<option value="app">Other</option>
-				</field>	
+				</field>
+					
 				<field name="display" type="radio"
 					default=""
-					label="Display type" description="Image will automatically only select items with an image, mouseover image will be title and click image will link to item page"
+					label="Display type" description="Image will automatically only select items with an image, click on image will link to item page, optional tooltip on mouseover image set below"
 		  			class="btn-group btn-small"
 					>
 					<option value="tit">Title</option>
 					<option value="img">Image</option>
 				</field>
-	 			<field name="imgrow" type="number" default="3" 
+	 			<field name="cols" type="number" default="3" 
 	 				label="Images per row" description="How many images to show in each row in the module width" 
 	 				min="1" max="5" size="2"
-	 				showon="display:img" />
+	 				showon="display:img" 
+	 			/>
+	 			<field name="tiptype" type="list"
+	 				label="Tooltip type"
+	 				description="Whether to display tooltip as just film title, larger image and title, or not at all"
+	 				default="both"
+	 				showon="display:img"
+	 				>
+	 				<option value="none">None</option>
+	 				<option value="title">Title Only</option>
+	 				<option value="both">Image and Title</option>
+	 			</field>
+	 			<field name="tipwid" type="number"
+	 				label="Width for image tooltip"
+	 				description="Set width in pixels for the image in the tooltip to suit your module position. NB smaller images will be expanded to fit and may look blurred"
+	 				min="50" max="400"
+	 				default="250"
+	 				showon="display:img[AND]tiptype:both"
+	 			/>
+	 			<field name="tippos" type="list"
+	 				label="Tooltip Position"
+	 				default="left"
+	 				description="If module position is on left choose 'right', if on right choose 'left'"
+	 				showon="display:img[AND]tiptype!:none"
+	 				>
+	 				<option value="left">Left</option>
+	 				<option value="right">Right</option>
+	 				<option value="top">Top</option>
+	 				<option value="bottom">Bottom</option>
+	 			</field>
+	 				
 				<field name="sortby" type="radio"
 					default=""
 					label="Sort list" description="Order to present the list in"
@@ -190,7 +223,8 @@
 					
 				<field name="posttext" type="textarea" 				
 					label="Text after" description="Text to display below times"  
-					default="" rows="5" cols="35" />				    	
+					default="" rows="5" cols="35" 
+				/>				    	
 			</fieldset>
 		</fields>
     </config>
