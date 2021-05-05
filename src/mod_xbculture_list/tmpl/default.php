@@ -13,8 +13,23 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+global $info;
+
 $comp = $params->get('comp');
-$view = $comp=='xbfilms' ? 'film' : 'book';
+switch ($comp) {
+	case 'xbfilms':
+		$view = 'film';
+		$perfilt = $params->get('fperfilt');
+		break;
+	case 'xbbooks':
+		$view = 'book';
+		$perfilt = $params->get('bperfilt');
+		break;
+	default:
+		$view = '';
+		$perfilt = '';
+	break;
+}
 $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 ?>
   
@@ -28,6 +43,9 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 		<?php foreach ($items as $item) : ?>
 			<li><span class="icon-<?php echo ($comp=='xbfilms'? 'screen xbfilm':'book xbbook');?>"></span>
 		    	<a href="<?php echo $link.$item->id;?>"><?php echo $item->title;?></a>
+		    	<?php if (($params->get('filter')=='person') && (!empty($perfilt)) ) {
+		    		echo ' (<i>'.$item->role.'</i>)';
+		    	}?>
 		    	<br />
 		    	<span class="xbml20">&nbsp;
 			    	<?php if (($params->get('sortby')=='rat') 
@@ -47,6 +65,17 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 		<div class="row-fluid xbmb8">
 	    	<?php if ($cols==5) { echo '<div class="span1"></div>'; } ?>
 			<?php foreach ($items as $item) : ?>
+				<?php $ratstr = ''; 
+					if (($params->get('sortby')=='rat') 
+				    	|| ($params->get('reviewed')==1) 
+						|| ($params->get('filter') == 'rating')) {
+							if ($item->rating==0) {
+								$ratstr = '<span class=\'icon-thumbs-down\' style=\'padding-left:20px\'></span>';
+							} else {
+								$ratstr = ' <span style=\'padding-left:20px\'>( '.$item->rating.'</span>';
+								$ratstr .= '<span class=\'icon-star xbgold\'></span>)';
+							}
+						} ?>
 				<?php  $src = trim($item->image); ?>
 				<?php if ((!$src=='') && (file_exists(JPATH_ROOT.'/'.$src))) : ?>
 			    	<?php $rcnt++; 
@@ -54,10 +83,10 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 					switch ($params->get('tiptype')) {
 						case 'both':
 							$tip = '<img src=\''.$src.'\' style=\'width:'.$params->get('tipwid').'px;\' />';
-							$tip .='<br /><b>'.$item->title.'</b>';
+							$tip .='<br /><b>'.$item->title.'</b>'.$ratstr;
 							break;
 						case 'title':
-							$tip ='<b>'.$item->title.'</b>';
+							$tip ='<b>'.$item->title.'</b><br />Rating: '.$ratstr;
 							break;							
 						default:
 							$tip = '';
@@ -82,6 +111,9 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 	 <?php endif; ?>
 
 	<div class="xb095 xbdarkgrey">
-		<?php echo $params->get('posttext'); ?>
+		<?php if (!empty($info)) {
+			echo '<i>'.$info.'</i><br />'; 			
+		}
+		echo $params->get('posttext'); ?>
 	</div>
 </div>

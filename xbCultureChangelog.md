@@ -1,6 +1,6 @@
 ### xbCulture Changelog
 
-v1.0.0
+v1.0.0 5th May 2021 Beta 1
 
 ### mod_recent
 

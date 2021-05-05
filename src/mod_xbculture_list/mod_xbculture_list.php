@@ -17,6 +17,8 @@ JLoader::register('XbcultureHelper', JPATH_ADMINISTRATOR . '/components/com_xbpe
 XbcultureHelper::checkComponent('com_xbfilms');
 XbcultureHelper::checkComponent('com_xbbooks');
 
+$info = '';
+
 $items = modXbcultureListHelper::getitems( $params );
 
 $document	= Factory::getDocument();

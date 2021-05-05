@@ -40,6 +40,22 @@
 					<option value="xbbooks">xbBooks</option>
 					<option value="xbfilms">xbFilms</option>
 				</field>
+				<field name="reviewed" type="radio" 
+					label="All or Rated only" description="only include rated items and use review date for order, or include all items and use catalogued date for order." 
+					default="" 
+		  			class="btn-group">
+					<option value="">All Items</option>
+					<option value="1">Rated Only</option>
+				</field>			
+				<field name="fiction" type="radio" 
+					label="Fiction/non-Fiction" description="Select fiction only, non-fiction only or both." 
+					default="" 
+		  			class="btn-group"
+		  			showon="comp:xbbooks">
+					<option value="">All Items</option>
+					<option value="1">Fiction</option>
+					<option value="0">non-Fiction</option>
+				</field>			
 				<field name="filter" type="list" 
 					label="Filter by" description="filter type to select items" 
 					default="" >
@@ -49,13 +65,6 @@
 					<option value="rating">Rating</option>
 					<option value="person">Person</option>
 				</field>
-				<field name="reviewed" type="radio" 
-					label="All or Rated only" description="only include rated items and use review date for order, or include all items and use catalogued date for order." 
-					default="0" 
-		  			class="btn-group">
-					<option value="0">All Items</option>
-					<option value="1">Rated Only</option>
-				</field>			
 				<field name="bcatfilt" type="category"
 					label="Category" Description="Category to filter by"
 				 	extension="com_xbbooks"
@@ -87,14 +96,14 @@
 					multiple="true"
 					class="multipleTags"
 					mode="ajax"
-					showon="filter:tags"
+					showon="filter:tag"
 				/>
 				<field name="taglogic" type="radio"
 					default="0"
 					label="Multi Tag Logic"
 					description="If multiple tags are selected can require all, or any, or none of the selected tags to be present"
 		  			class="btn-group"
-					showon="filter:tags"
+					showon="filter:tag"
 					>
 					<option value="1">All</option>
 					<option value="0">Any</option>
@@ -206,6 +215,14 @@
 					<option value="DESC">Descending</option>
 				</field>
 					
+				<field name="showrand" type="radio"
+					default="0"
+					label="Show Random count" description="If a random selection is made as more items are found than will be displayed then show counts of total above post-text"
+		  			class="btn-group btn-small"
+					>
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
 				<field name="posttext" type="textarea" 				
 					label="Text after" description="Text to display below times"  
 					default="" rows="5" cols="35" 

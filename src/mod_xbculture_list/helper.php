@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_list/helper.php
- * @version 0.1.0 4th May 2021
+ * @version 0.1.0 5th May 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -10,14 +10,18 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
+use Joomla\Utilities\ArrayHelper;
 
 class modXbcultureListHelper {
 	
 	static function getItems($params) {
+		global $info;
+		$info='';
 		$cnt = $params->get('itemcnt');
 		$comp = $params->get('comp');
 //		$usebooks = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usebooks');
 //		$usefilms = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usefilms');
+		$fiction = $params->get('fiction');
 		$filt = $params->get('filter');
 		$display = $params->get('display');
 		$sortby = $params->get('sortby');
@@ -38,6 +42,7 @@ class modXbcultureListHelper {
 		switch ($comp) {
 			case 'xbbooks':
 				$ttype = 'com_xbbooks.book';
+				$tlbl = 'books';
 				$img = 'cover_img';
 				$itemid = 'book_id';
 				$tablea = '#__xbbooks';
@@ -49,6 +54,7 @@ class modXbcultureListHelper {
 				break;
 			case 'xbfilms':
 				$ttype = 'com_xbfilms.film';
+				$tlbl = 'films';
 				$img = 'poster_img';
 				$itemid = 'film_id';
 				$tablea = '#__xbfilms';
@@ -71,6 +77,9 @@ class modXbcultureListHelper {
 		if (($sortby == 'rat') || ($reviewed==1) || ($filter == 'rating')){
 			$query->select('r.rev_date, r.rating');
 			$query->join('INNER',$rtable.' AS r ON '.$itemid.' = a.id');
+		}
+		if (($comp=='xbbooks') && ($fiction !='')) {
+			$query->where('a.fiction = '.$db->quote($fiction));
 		}
 		switch ($filter) {
 			case 'cat':
@@ -132,6 +141,7 @@ class modXbcultureListHelper {
 				break;
 			case 'person':
 				$query->join('LEFT',$db->quoteName($ptable, 'p') . ' ON ' .$db->quoteName('a.id') . ' = ' . $db->quoteName('p.'.$itemid)); 
+				$query->select('p.role');
 				if (is_numeric($pfilt)) {
 					$query->where('p.person_id = '.$db->quote($pfilt));
 				}
@@ -159,6 +169,7 @@ class modXbcultureListHelper {
 		
 		//if number returned more than $cnt pick random items from the list
 		if (count($items)>$cnt) {
+			$info .= $cnt.' random '.$tlbl.' from '.count($items).' found';
 			$randkeys = array_rand($items,$cnt);
 			$randitems = array();
 			foreach ($randkeys as $k) {
