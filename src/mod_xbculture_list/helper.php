@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_list/helper.php
- * @version 0.1.1 5th May 2021
+ * @version 0.1.2 5th May 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -77,6 +77,9 @@ class modXbcultureListHelper {
 		if (($sortby == 'rat') || ($reviewed==1) || ($filter == 'rating')){
 			$query->select('r.rev_date, r.rating');
 			$query->join('INNER',$rtable.' AS r ON '.$itemid.' = a.id');
+		}
+		if ($display=='img') {
+			$query->where('a.'.$img.' <> ""');
 		}
 		if (($comp=='xbbooks') && ($fiction !='')) {
 			$query->where('a.fiction = '.$db->quote($fiction));
@@ -182,8 +185,12 @@ class modXbcultureListHelper {
 			$info .= $cnt.' random '.$tlbl.' from '.count($items).' found';
 			$randkeys = array_rand($items,$cnt);
 			$randitems = array();
-			foreach ($randkeys as $k) {
-				$randitems[]=$items[$k];
+			if (!is_array($randkeys)) {
+				$randitems[]=$items[$randkeys];
+			} else {
+				foreach ($randkeys as $k) {
+					$randitems[]=$items[$k];
+				}				
 			}
 			$items = $randitems;
 		}

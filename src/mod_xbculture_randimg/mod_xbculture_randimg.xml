@@ -30,13 +30,13 @@
 					rows="5" cols="35" 
 				/>
 				
-	 			<field name="bookcnt" type="number" default="5" 
+	 			<field name="bookcnt" type="number" default="3" 
 	 				label="Books to include" description="How many book covers to show (if available)." 
-	 				min="1" max="50" size="2" 
+	 				min="0" max="50" size="2" 
 	 			/>
-	 			<field name="filmcnt" type="number" default="5" 
+	 			<field name="filmcnt" type="number" default="3" 
 	 				label="Films to include" description="How many film posters to show (if available)." 
-	 				min="1" max="50" size="2" 
+	 				min="0" max="50" size="2" 
 	 			/>
 	 			
 	 			<field name="cols" type="number" default="3" 

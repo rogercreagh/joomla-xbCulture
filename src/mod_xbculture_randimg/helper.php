@@ -50,8 +50,12 @@ class modXbcultureRandimgHelper {
 	        if (count($films)>$fcnt) {
 	            $randkeys = array_rand($films,$fcnt);
 	            $randitems = array();
-	            foreach ($randkeys as $k) {
-	                $randitems[]=$films[$k];
+	            if (!is_array($randkeys)) {
+	            	$randitems[]=$films[$randkeys];
+	            } else {
+	            	foreach ($randkeys as $k) {
+	            		$randitems[]=$films[$k];
+	            	}
 	            }
 	            $films = $randitems;
 	        }
@@ -80,8 +84,12 @@ class modXbcultureRandimgHelper {
 	        if (count($books)>$bcnt) {
 	            $randkeys = array_rand($books,$bcnt);
 	            $randitems = array();
-	            foreach ($randkeys as $k) {
-	                $randitems[]=$books[$k];
+	            if (!is_array($randkeys)) {
+	            	$randitems[]=$books[$randkeys];
+	            } else {
+	            	foreach ($randkeys as $k) {
+	            		$randitems[]=$books[$k];
+	            	}
 	            }
 	            $books = $randitems;
 	        }
