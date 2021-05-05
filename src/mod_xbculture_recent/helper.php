@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_recent/helper.php
- * @version 0.1.2 1st May 2021
+ * @version 0.1.3 5th May 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,6 +48,20 @@ class modXbcultureRecentHelper {
 		}
 		$items = array_merge($films,$books);
 		usort($items,'modXbcultureRecentHelper::dateSort');
+		
+		// we may get unwanted duplicate ratings in the list
+		// this will take the first one only in the ordered list
+		if ($order == 'rev_date') {
+		    $known = array();
+		    $filtered = array_filter($items, function ($val) use (&$known) {
+		        $unique = !in_array($val->id, $known);
+		        $known[] = $val->id;
+		        return $unique;
+		    });
+		    $items = $filtered;
+		}
+		
+		
 		return $items;
 	}
 		

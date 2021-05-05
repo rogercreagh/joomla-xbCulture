@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_list/helper.php
- * @version 0.1.0 5th May 2021
+ * @version 0.1.1 5th May 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -156,9 +156,7 @@ class modXbcultureListHelper {
 		}		
 		
 		$query->order($order.' '.$sortdir);
-		if ($order != 'title') {
-			$query->order($order.' ASC');
-		}
+		// only if sorting by date we'll limit the list
 		if ($sortby=='dat') {
 			$db->setQuery($query,0,$cnt);
 		} else {
@@ -166,6 +164,18 @@ class modXbcultureListHelper {
 		}
 			
 		$items = $db->loadObjectList();
+		
+		// if we are using ratings we may get unwanted duplicates in the list
+		// this will take the first one only in the ordered list 	
+		if ($reviewed && ($sortby!='dat')) {
+    		$known = array();
+    		$filtered = array_filter($items, function ($val) use (&$known) {
+    		    $unique = !in_array($val->id, $known);
+    		    $known[] = $val->id;
+    		    return $unique;
+    		});
+    		$items = $filtered;
+		}
 		
 		//if number returned more than $cnt pick random items from the list
 		if (count($items)>$cnt) {
@@ -177,6 +187,7 @@ class modXbcultureListHelper {
 			}
 			$items = $randitems;
 		}
+		
 		return $items;		
 	}
 		
