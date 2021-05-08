@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_randimg/tmpl/default.php
- * @version 0.1.0 27th April 2021
+ * @version 0.1.1 6th May 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -13,7 +13,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 ?>
 
-<div style="max-width:300px;">
+<div>
 	<div class="xb095 xbdarkgrey xbmb8">
 		<?php echo $params->get('pretext'); ?>
 	</div>
@@ -24,7 +24,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
     	<?php if ($cols==5) { echo '<div class="span1"></div>'; } ?>
 		<?php foreach ($items as $item) : ?>
 			<?php $ratstr = ''; 
-				if ($params->get('reviewed')==1) {
+			$link='index.php?option=com_xb'.$item->com.'s&view='.$item->com.'&id='.$item->id; 
+			if ($params->get('reviewed')==1) {
 						if ($item->rating==0) {
 							$ratstr = '<span class=\'icon-thumbs-down\' style=\'padding-left:20px\'></span>';
 						} else {
@@ -49,7 +50,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 						break;
 				} ?>
 				<div class="span<?php echo floor((12/$cols)); ?>">
-					<a href="<?php echo $link.$item->id; ?>">
+					<a href="<?php echo $link; ?>">
 						<img class="hasTooltip" 
 							src="<?php echo $src; ?>"
 							title="" data-original-title="<?php echo $tip; ?>"

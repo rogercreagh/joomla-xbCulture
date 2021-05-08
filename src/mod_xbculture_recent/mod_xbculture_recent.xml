@@ -60,7 +60,7 @@
     </config>
     <updateservers>
 		<server type="extension" priority="1" name="xbCulture_Recent Updates">
-			https://www.crosborne.uk/jupdates/mod_xbculture_recent_updater.xml
+			https://www.crosborne.uk/jupdates/update_mod_xbculture_recent.xml
 		</server>
 	</updateservers>
 </extension>

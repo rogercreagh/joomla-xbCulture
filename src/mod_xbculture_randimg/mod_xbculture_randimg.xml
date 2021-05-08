@@ -2,13 +2,13 @@
 <extension type="module" version="3.3" method="upgrade" client="site">
 	<name>xbCulture-RandomImage</name>
 	<author>Roger Creagh-Osborne</author>
-	<creationDate>5th May 2021</creationDate>
+	<version>0.1.1</version>
+	<creationDate>6th May 2021</creationDate>
 	<copyright>Copyright (C) 2021 Roger Creagh-Osborne. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
 	<authorEmail>roger@crosborne.co.uk</authorEmail>
 	<authorUrl>www.crosborne.co.uk</authorUrl>
-	<version>0.1.0</version>
-	<description></description>
+	<description>Show random poster or cover images</description>
 	<files>
 		<filename>mod_xbculture_randimg.xml</filename>
 		<filename module="mod_xbculture_randimg">mod_xbculture_randimg.php</filename>
@@ -88,7 +88,7 @@
     </config>
     <updateservers>
 		<server type="extension" priority="1" name="xbCulture RandImg Module Updates">
-			https://www.crosborne.uk/jupdates/mod_xbculture_randimg_updater.xml
+			https://www.crosborne.uk/jupdates/update_mod_xbculture_randimg.xml
 		</server>
 	</updateservers>
 </extension>
