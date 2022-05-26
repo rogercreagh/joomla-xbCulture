@@ -2,12 +2,12 @@
 <extension type="module" version="3.3" method="upgrade" client="site">
 	<name>xbCulture-List</name>
 	<author>Roger Creagh-Osborne</author>
-	<creationDate>5th May 2021</creationDate>
+	<creationDate>26th May 2022</creationDate>
 	<copyright>Copyright (C) 2021 Roger Creagh-Osborne. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
 	<authorEmail>roger@crosborne.co.uk</authorEmail>
 	<authorUrl>www.crosborne.co.uk</authorUrl>
-	<version>0.1.2</version>
+	<version>0.2.0</version>
 	<description>Show recent items from xbCulture components</description>
 	<files>
 		<filename>mod_xbculture_list.xml</filename>

@@ -54,7 +54,7 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 			        	<span class="xbhlt xbbold"><?php echo $item->rating;?></span> 
 			        	<span class="icon-<?php echo ($item->rating==0 ? 'thumbs-down xbred':'star xbgold');?>"> </span>
 			    	<?php endif; ?>
-			    	<span class="xb09"><?php echo HtmlHelper::date($item->cat_date , Text::_('d M Y'));?></span>
+			    	<span class="xb09"><?php echo HtmlHelper::date($item->acq_date , Text::_('d M Y'));?></span>
 		    	</span>
 		    </li>
 		<?php endforeach; ?>

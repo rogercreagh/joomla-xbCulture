@@ -30,7 +30,7 @@ class modXbcultureListHelper {
 		$filter = $params->get('filter');
 		switch ($sortby) {
 			case 'dat':
-				$order = (($reviewed==1) ||($filter=='rating')) ? 'rev_date' : 'cat_date';
+				$order = (($reviewed==1) ||($filter=='rating')) ? 'rev_date' : 'acq_date';
 				break;
 			case 'rat':
 				$order = 'r.rating';	
@@ -72,7 +72,7 @@ class modXbcultureListHelper {
 		$db = Factory::getDbo();
 		$items = array();
 		$query = $db->getQuery(true);
-		$query->select('a.id AS id, a.cat_date, a.title, a.'.$img.' AS image')
+		$query->select('a.id AS id, a.acq_date, a.title, a.'.$img.' AS image')
 		->from($tablea.' AS a');
 		if (($sortby == 'rat') || ($reviewed==1) || ($filter == 'rating')){
 			$query->select('r.rev_date, r.rating');

@@ -2,8 +2,8 @@
 <extension type="module" version="3.3" method="upgrade" client="site">
 	<name>xbCulture-RandomImage</name>
 	<author>Roger Creagh-Osborne</author>
-	<version>0.1.1</version>
-	<creationDate>6th May 2021</creationDate>
+	<version>0.2.0</version>
+	<creationDate>26th May 2022</creationDate>
 	<copyright>Copyright (C) 2021 Roger Creagh-Osborne. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
 	<authorEmail>roger@crosborne.co.uk</authorEmail>

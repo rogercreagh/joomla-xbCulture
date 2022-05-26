@@ -19,7 +19,7 @@ class modXbcultureRandimgHelper {
 	    $usebooks = Factory::getSession()->get('xbbooks_ok',false) && ($bcnt>0);
 	    $usefilms = Factory::getSession()->get('xbbooks_ok',false) && ($fcnt>0);
 	    $reviewed = $params->get('reviewed');
-	    $datetype = $reviewed ? 'rev_date' : 'cat_date';
+	    $datetype = $reviewed ? 'rev_date' : 'acq_date';
 	    
 	    $db = Factory::getDbo();
 	    $films = array();

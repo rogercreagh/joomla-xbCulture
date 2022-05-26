@@ -17,7 +17,7 @@ class modXbcultureRecentHelper {
 		$cnt = $params->get('itemcnt');
 		$usebooks = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usebooks');
 		$usefilms = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usefilms');
-		$order = $params->get('reviewed') ? 'rev_date' : 'cat_date';
+		$order = $params->get('reviewed') ? 'rev_date' : 'acq_date';
 		$db = Factory::getDbo();
 		$films = array();
 		$books = array();
