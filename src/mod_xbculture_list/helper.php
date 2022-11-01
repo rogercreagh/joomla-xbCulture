@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_list/helper.php
- * @version 0.1.2 5th May 2021
+ * @version 0.2.0 28th October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -29,10 +29,13 @@ class modXbcultureListHelper {
 		$reviewed = $params->get('reviewed');
 		$filter = $params->get('filter');
 		switch ($sortby) {
-			case 'dat':
-				$order = (($reviewed==1) ||($filter=='rating')) ? 'rev_date' : 'acq_date';
-				break;
-			case 'rat':
+		    case 'fdate':
+		        $order = 'firstdate';
+		        break;
+		    case 'ldate':
+		        $order = 'lastdate';
+		        break;
+		    case 'rat':
 				$order = 'r.rating';	
 				break;				
 			default:
@@ -44,6 +47,9 @@ class modXbcultureListHelper {
 				$ttype = 'com_xbbooks.book';
 				$tlbl = 'books';
 				$img = 'cover_img';
+				$fdate = 'first_read';
+				$ldate = 'last_read';
+				$year = 'pubyear';
 				$itemid = 'book_id';
 				$tablea = '#__xbbooks';
 				$rtable = '#__xbbookreviews';
@@ -56,6 +62,9 @@ class modXbcultureListHelper {
 				$ttype = 'com_xbfilms.film';
 				$tlbl = 'films';
 				$img = 'poster_img';
+				$fdate = 'first_seen';
+				$ldate = 'last_seen';
+				$year = 'rel_year';
 				$itemid = 'film_id';
 				$tablea = '#__xbfilms';
 				$rtable = '#__xbfilmreviews';
@@ -68,13 +77,13 @@ class modXbcultureListHelper {
 				
 			break;
 		}
-		
 		$db = Factory::getDbo();
 		$items = array();
 		$query = $db->getQuery(true);
-		$query->select('a.id AS id, a.acq_date, a.title, a.'.$img.' AS image')
+		$query->select('a.id AS id, a.'.$fdate.' AS firstdate, a.'.$ldate.' AS lastdate, a.'.$year.' AS year, a.title, a.'.$img.' AS image')
 		->from($tablea.' AS a');
 		if (($sortby == 'rat') || ($reviewed==1) || ($filter == 'rating')){
+		    //TODO we actually need average rating if filtering by rating?
 			$query->select('r.rev_date, r.rating');
 			$query->join('INNER',$rtable.' AS r ON '.$itemid.' = a.id');
 		}
@@ -160,40 +169,47 @@ class modXbcultureListHelper {
 		
 		$query->order($order.' '.$sortdir);
 		// only if sorting by date we'll limit the list
-		if ($sortby=='dat') {
-			$db->setQuery($query,0,$cnt);
-		} else {
+// 		if ($sortby=='dat') {
+// 			$db->setQuery($query,0,$cnt);
+// 		} else {
+// 		}
 			$db->setQuery($query); //e may get more than we want so we'll randomly pick some after 
-		}
 			
 		$items = $db->loadObjectList();
 		
 		// if we are using ratings we may get unwanted duplicates in the list
 		// this will take the first one only in the ordered list 	
-		if ($reviewed && ($sortby!='dat')) {
-    		$known = array();
-    		$filtered = array_filter($items, function ($val) use (&$known) {
-    		    $unique = !in_array($val->id, $known);
-    		    $known[] = $val->id;
-    		    return $unique;
-    		});
-    		$items = $filtered;
-		}
+// 		if ($reviewed && ($sortby!='dat')) {
+//     		$known = array();
+//     		$filtered = array_filter($items, function ($val) use (&$known) {
+//     		    $unique = !in_array($val->id, $known);
+//     		    $known[] = $val->id;
+//     		    return $unique;
+//     		});
+//     		$items = $filtered;
+// 		}
 		
-		//if number returned more than $cnt pick random items from the list
+		//if number returned more than $cnt items from the list
 		if (count($items)>$cnt) {
-			$info .= $cnt.' random '.$tlbl.' from '.count($items).' found';
-			$randkeys = array_rand($items,$cnt);
-			$randitems = array();
-			if (!is_array($randkeys)) {
-				$randitems[]=$items[$randkeys];
-			} else {
-				foreach ($randkeys as $k) {
-					$randitems[]=$items[$k];
-				}				
-			}
-			$items = $randitems;
+			$limititems = array();
+		    if ($sortby == 'rand') {
+    			$randkeys = array_rand($items,$cnt);
+    			if (!is_array($randkeys)) {
+    			    $limititems[]=$items[$randkeys];
+    			} else {
+    				foreach ($randkeys as $k) {
+    				    $limititems[]=$items[$k];
+    				}				
+    			}
+    			$items = $limititems;		        
+		    } else {
+		        for ($i = 0; $i < $cnt; $i++) {
+		            $limititems[] = $items[$i];
+		        }
+		        $items = $limititems;
+		    }
 		}
+//			$info .= $cnt.' random '.$tlbl.' from '.count($items).' found';
 		
 		return $items;		
 	}
@@ -201,7 +217,7 @@ class modXbcultureListHelper {
 	static function dateSort( $a, $b ) {
 		return $a->odate == $b->odate ? 0 : (( $a->odate > $b->odate ) ? -1 : 1);
 	}
-			
+				
 }
 
 ?>

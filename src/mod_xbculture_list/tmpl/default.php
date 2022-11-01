@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_recent/tmpl/default.php
- * @version 0.1.0 5th May 2021
+ * @version 0.2.0 28th October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 global $info;
 
 $comp = $params->get('comp');
+$sortby = $params->get('sortby','tit');
+$showdate = $params->get('showdate',0);
 switch ($comp) {
 	case 'xbfilms':
 		$view = 'film';
@@ -35,7 +37,12 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
   
 <div style="max-width:300px;">
 	<div class="xb095 xbdarkgrey xbmb8">
-		<?php echo $params->get('pretext'); ?>
+		<?php echo $params->get('pretext'); 
+// 		if ($params->get('showcnt')=='1'){
+// 		    echo '<span class="xb09 xbit">Showing '.count($items).' of '.
+// 		}
+		?>
+		
 	</div>
 	
 	<?php if ($params->get('display')=='tit') : ?>
@@ -46,24 +53,46 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 		    	<?php if (($params->get('filter')=='person') && (!empty($perfilt)) ) {
 		    		echo ' (<i>'.$item->role.'</i>)';
 		    	}?>
-		    	<br />
-		    	<span class="xbml20">&nbsp;
-			    	<?php if (($params->get('sortby')=='rat') 
+			    	<?php //if sorting orfiltering by review info then show rating and rev_date
+			    	    if (($params->get('sortby')=='rat') 
 			    			|| ($params->get('reviewed')==1) 
 			    			|| ($params->get('filter') == 'rating')) : ?>
-			        	<span class="xbhlt xbbold"><?php echo $item->rating;?></span> 
-			        	<span class="icon-<?php echo ($item->rating==0 ? 'thumbs-down xbred':'star xbgold');?>"> </span>
+    		    	<br />
+    		    	<span>&nbsp;
+			        	<?php if ($item->rating==0) {
+			        		echo '<span class="icon-thumbs-down xbred"></span>';
+			        	} else {
+    			        	echo str_repeat('<span class="icon-star xbgold"></span>', $item->rating);
+    			        	echo '<br />'.HtmlHelper::date($item->rev_date , Text::_('d M Y'));
+			        	} ?>
+			        </span>
+			        <?php  else : ?>
+    			    	<?php if ($showdate) :?>
+    			    		<span class="xb09">
+        			    		<?php switch ($sortby) {
+    			    		        case 'fdate':
+    			    		            $ddate = HtmlHelper::date($item->firstdate , Text::_('d M Y'));
+    			    		            break;
+    			    		        case 'ldate':
+    			    		            $ddate = HtmlHelper::date($item->lastdate , Text::_('d M Y'));
+    			    		            break;
+    			    		        default:
+    			    		            $ddate = $item->year;
+    			    		            break;
+        			    		}			    		    
+            			        echo $ddate; ?>
+        			        </span> 
+    			    	<?php endif; ?>
 			    	<?php endif; ?>
-			    	<span class="xb09"><?php echo HtmlHelper::date($item->acq_date , Text::_('d M Y'));?></span>
-		    	</span>
 		    </li>
 		<?php endforeach; ?>
 		</ul>
 	<?php else : ?>
-		<?php $cols = $params->get('cols');
+		<?php 
+		$cols = $params->get('cols');
 		$rcnt = 0; ?>
 		<div class="row-fluid xbmb8">
-	    	<?php if ($cols==5) { echo '<div class="span1"></div>'; } ?>
+	    	<?php //if ($cols==5) { echo '<div class="span1"></div>'; } ?>
 			<?php foreach ($items as $item) : ?>
 				<?php $ratstr = ''; 
 					if (($params->get('sortby')=='rat') 
@@ -75,6 +104,7 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 								$ratstr = ' <span style=\'padding-left:20px\'>( '.$item->rating.'</span>';
 								$ratstr .= '<span class=\'icon-star xbgold\'></span>)';
 							}
+							$ratstr = '<br />Rating: '.$ratstr;
 						} ?>
 				<?php  $src = trim($item->image); ?>
 				<?php if ((!$src=='') && (file_exists(JPATH_ROOT.'/'.$src))) : ?>
@@ -86,7 +116,7 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 							$tip .='<br /><b>'.$item->title.'</b>'.$ratstr;
 							break;
 						case 'title':
-							$tip ='<b>'.$item->title.'</b><br />Rating: '.$ratstr;
+							$tip ='<b>'.$item->title.'</b>'.$ratstr;
 							break;							
 						default:
 							$tip = '';
@@ -94,10 +124,12 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 					} ?>
 					<div class="span<?php echo floor((12/$cols)); ?>">
 						<a href="<?php echo $link.$item->id; ?>">
-							<img class="hasTooltip" 
-								src="<?php echo $src; ?>"
-								title="" data-original-title="<?php echo $tip; ?>"
-								data-placement="<?php echo $params->get('tippos'); ?>"
+							<img src="<?php echo $src; ?>"
+								<?php if ($tip) : ?>
+    								class="hasTooltip"
+    								title="" data-original-title="<?php echo $tip; ?>"
+    								data-placement="<?php echo $params->get('tippos'); ?>"
+								<?php endif; ?>
 								border="0" alt="" />							                          
 		 				</a>
 					</div>

@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_recent/helper.php
- * @version 0.1.3 5th May 2021
+ * @version 0.2.0 28th October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -17,12 +17,12 @@ class modXbcultureRecentHelper {
 		$cnt = $params->get('itemcnt');
 		$usebooks = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usebooks');
 		$usefilms = Factory::getSession()->get('xbbooks_ok',false) && $params->get('usefilms');
-		$order = $params->get('reviewed') ? 'rev_date' : 'acq_date';
 		$db = Factory::getDbo();
 		$films = array();
 		$books = array();
 		if ($usefilms) {
-			$query = $db->getQuery(true);
+		    $order = $params->get('reviewed') ? 'rev_date' : 'last_seen';
+		    $query = $db->getQuery(true);
 			$query->select('f.id AS id, '.$order.' AS odate, f.title, f.poster_img AS image, "film" AS com')
 			->from('#__xbfilms AS f');
 			if ($order == 'rev_date') {
@@ -35,7 +35,8 @@ class modXbcultureRecentHelper {
 			$films = $db->loadObjectList();
 		}
 		if ($usebooks) {
-			$query = $db->getQuery(true);
+		    $order = $params->get('reviewed') ? 'rev_date' : 'last_read';
+		    $query = $db->getQuery(true);
 			$query->select('b.id AS id, '.$order.' AS odate, b.title, b.cover_img AS image, "book" AS com')
 			->from('#__xbbooks AS b');
 			if ($order == 'rev_date') {

@@ -2,8 +2,8 @@
 <extension type="module" version="3.3" method="upgrade" client="site">
 	<name>xbCulture-List</name>
 	<author>Roger Creagh-Osborne</author>
-	<creationDate>26th May 2022</creationDate>
-	<copyright>Copyright (C) 2021 Roger Creagh-Osborne. All rights reserved.</copyright>
+	<creationDate>27th October 2022</creationDate>
+	<copyright>Copyright (C) 2021,2022 Roger Creagh-Osborne. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
 	<authorEmail>roger@crosborne.co.uk</authorEmail>
 	<authorUrl>www.crosborne.co.uk</authorUrl>
@@ -25,6 +25,14 @@
     <config>
         <fields name="params" addfieldpath="administrator/components/com_xbpeople/models/fields">
         	<fieldset name="basic">
+ 				<field name="comp" type="radio" 
+					default="" required="true"
+					label="Component" description="select which xbCulture component to get items from" 
+		  			class="btn-group"
+		  			>
+					<option value="xbbooks">xbBooks</option>
+					<option value="xbfilms">xbFilms</option>
+				</field>
 	 			<field name="itemcnt" type="number" default="5" 
 	 				label="Items to list" description="How many items from selected component to show in the module." 
 	 				min="1" max="50" size="2" 
@@ -33,18 +41,36 @@
 					label="Text before" description="Optional text to display above times" 
 					rows="5" cols="35" 
 				/>
-				<field name="comp" type="radio" 
-					default="" required="true"
-					label="Component" description="select which xbCulture component to get items from" 
-		  			class="btn-group">
-					<option value="xbbooks">xbBooks</option>
-					<option value="xbfilms">xbFilms</option>
+				<field name="display" type="radio"
+					default=""
+					label="Display type" description="Image will automatically only select items with an image, click on image will link to item page, optional tooltip on mouseover image set below"
+		  			class="btn-group btn-small"
+					>
+					<option value="tit">Title</option>
+					<option value="img">Image</option>
 				</field>
+	 			<field name="cols" type="number" default="3" 
+	 				label="Images per row" description="How many images to show in each row in the module width" 
+	 				min="1" max="12" size="2"
+	 				showon="display:img" 
+	 			/>
+ 				<field name="showdate" type="radio"
+					default="0"
+					label="Show Date" 
+					description="Show first/last/year date depending on sort order. If rating is shown then review date will always be shown."
+					showon="sortby!:rat[AND]reviewed!:1[AND]filter!:rating[AND]display:tit"
+		  			class="btn-group btn-small"
+					>
+					<option value="1">Show</option>
+					<option value="0">Hide</option>
+				</field>
+ 
 				<field name="reviewed" type="radio" 
 					label="All or Rated only" description="only include rated items and use review date for order, or include all items and use catalogued date for order." 
 					default="" 
+					showon="display:tit"
 		  			class="btn-group">
-					<option value="">All Items</option>
+					<option value="0">All Items</option>
 					<option value="1">Rated Only</option>
 				</field>			
 				<field name="fiction" type="radio" 
@@ -155,22 +181,9 @@
 					<option value="appearsin">Appears as Self</option>
 				</field>
 					
-				<field name="display" type="radio"
-					default=""
-					label="Display type" description="Image will automatically only select items with an image, click on image will link to item page, optional tooltip on mouseover image set below"
-		  			class="btn-group btn-small"
-					>
-					<option value="tit">Title</option>
-					<option value="img">Image</option>
-				</field>
-	 			<field name="cols" type="number" default="3" 
-	 				label="Images per row" description="How many images to show in each row in the module width" 
-	 				min="1" max="5" size="2"
-	 				showon="display:img" 
-	 			/>
 	 			<field name="tiptype" type="list"
 	 				label="Tooltip type"
-	 				description="Whether to display tooltip as just film title, larger image and title, or not at all"
+	 				description="Whether to display tooltip as just the title, larger image and title, or not at all"
 	 				default="both"
 	 				showon="display:img"
 	 				>
@@ -203,25 +216,19 @@
 		  			class="btn-group btn-small"
 					>
 					<option value="tit">Title</option>
-					<option value="dat">Date</option>
+					<option value="fdate">First Date</option>
+					<option value="ldate">Last Date</option>
 					<option value="rat">Rating</option>
+					<option value="rand">Random</option>
 				</field>
 				<field name="sortdir" type="radio"
 					default=""
-					label="Sort direction" description="Ascending means A or earliest date or lowest rating will be at top. Descending is the opposite. If items have the same date or rating then title will be used (ascending) as a secondary sort."
+					label="Sort direction" 
+					description="Ascending means A or earliest date or lowest rating will be at top. Descending is the opposite. If items have the same date or rating then title will be used (ascending) as a secondary sort."
 		  			class="btn-group btn-small"
 					>
 					<option value="ASC">Ascending</option>
 					<option value="DESC">Descending</option>
-				</field>
-					
-				<field name="showrand" type="radio"
-					default="0"
-					label="Show Random count" description="If a random selection is made as more items are found than will be displayed then show counts of total above post-text"
-		  			class="btn-group btn-small"
-					>
-					<option value="0">Hide</option>
-					<option value="1">Show</option>
 				</field>
 				<field name="posttext" type="textarea" 				
 					label="Text after" description="Text to display below times"  

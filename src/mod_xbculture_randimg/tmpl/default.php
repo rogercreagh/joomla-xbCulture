@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_randimg/tmpl/default.php
- * @version 0.1.1 6th May 2021
+ * @version 0.2.0 28th October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,7 +21,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<?php $cols = $params->get('cols');
 	$rcnt = 0; ?>
 	<div class="row-fluid xbmb8">
-    	<?php if ($cols==5) { echo '<div class="span1"></div>'; } ?>
 		<?php foreach ($items as $item) : ?>
 			<?php $ratstr = ''; 
 			$link='index.php?option=com_xb'.$item->com.'s&view='.$item->com.'&id='.$item->id; 
@@ -29,8 +28,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 						if ($item->rating==0) {
 							$ratstr = '<span class=\'icon-thumbs-down\' style=\'padding-left:20px\'></span>';
 						} else {
-							$ratstr = ' <span style=\'padding-left:20px\'>( '.$item->rating.'</span>';
-							$ratstr .= '<span class=\'icon-star xbgold\'></span>)';
+//							$ratstr = ' <span style=\'padding-left:20px\'>( '.$item->rating.'</span>';
+							$ratstr .= str_repeat('<span class=\'icon-star xbgold\'></span>)',$item->rating);
 						}
 					} ?>
 			<?php  $src = trim($item->image); ?>
@@ -40,10 +39,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				switch ($params->get('tiptype')) {
 					case 'both':
 						$tip = '<img src=\''.$src.'\' style=\'width:'.$params->get('tipwid').'px;\' />';
-						$tip .='<br /><b>'.$item->title.'</b>'.$ratstr;
+						$tip .='<br /><b>'.$item->title.'</b><br />'.$ratstr;
 						break;
 					case 'title':
-						$tip ='<b>'.$item->title.'</b><br />Rating: '.$ratstr;
+						$tip ='<b>'.$item->title.'</b>';
+						$tip .= ($ratstr=='') ? '' : '<br />Rating: '.$ratstr;
 						break;							
 					default:
 						$tip = '';
@@ -51,11 +51,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				} ?>
 				<div class="span<?php echo floor((12/$cols)); ?>">
 					<a href="<?php echo $link; ?>">
-						<img class="hasTooltip" 
-							src="<?php echo $src; ?>"
-							title="" data-original-title="<?php echo $tip; ?>"
-							data-placement="<?php echo $params->get('tippos'); ?>"
-							border="0" alt="" />							                          
+						<img src="<?php echo $src; ?>"
+							<?php if ($tip) : ?>
+								class="hasTooltip xbtip"
+								title="" data-original-title="<?php echo $tip; ?>"
+								data-placement="<?php echo $params->get('tippos'); ?>"
+							<?php endif; ?>
+							border="0" alt="" 
+						/>							                          
 	 				</a>
 				</div>
 		        <?php if ($rcnt == $cols) {

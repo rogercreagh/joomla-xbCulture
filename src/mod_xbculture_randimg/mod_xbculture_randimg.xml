@@ -3,7 +3,7 @@
 	<name>xbCulture-RandomImage</name>
 	<author>Roger Creagh-Osborne</author>
 	<version>0.2.0</version>
-	<creationDate>26th May 2022</creationDate>
+	<creationDate>28th October 2022</creationDate>
 	<copyright>Copyright (C) 2021 Roger Creagh-Osborne. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
 	<authorEmail>roger@crosborne.co.uk</authorEmail>
@@ -24,12 +24,7 @@
 	 -->
     <config>
         <fields name="params">
-        	<fieldset name="basic">
-				<field name="pretext" type="textarea" default="" 
-					label="Text before" description="Optional text to display above times" 
-					rows="5" cols="35" 
-				/>
-				
+       		<fieldset name="basic">
 	 			<field name="bookcnt" type="number" default="3" 
 	 				label="Books to include" description="How many book covers to show (if available)." 
 	 				min="0" max="50" size="2" 
@@ -38,16 +33,21 @@
 	 				label="Films to include" description="How many film posters to show (if available)." 
 	 				min="0" max="50" size="2" 
 	 			/>
+				<field name="pretext" type="textarea" default="" 
+					label="Text before" description="Optional text to display above times" 
+					rows="5" cols="35" 
+				/>
+				
 	 			
 	 			<field name="cols" type="number" default="3" 
 	 				label="Images per row" description="How many images to show in each row in the module width" 
-	 				min="1" max="6" size="2"
+	 				min="1" max="12" size="2"
 	 			/>
 	 			
 	 			<field name="tiptype" type="list"
 	 				label="Tooltip type"
 	 				description="Whether to display tooltip as just title, larger image and title, or not at all"
-	 				default="both"
+	 				default="none"
 	 				>
 	 				<option value="none">None</option>
 	 				<option value="title">Title Only</option>
@@ -71,16 +71,17 @@
 	 				<option value="top">Top</option>
 	 				<option value="bottom">Bottom</option>
 	 			</field>
-	 				
+<!--  -->	 				
 				<field name="reviewed" type="radio" 
-					label="All or Rated only" description="only include rated items and use review date for order, or include all items and use catalogued date for order." 
+					label="All or Rated only" description="only include rated items and use review date for order, or include all items and use first date for order." 
 					default="0" 
 					class="btn-group" >
 					<option value="0">All Items</option>
 					<option value="1">Rated Only</option>
 				</field>	
 						
-				<field name="posttext" type="textarea" 				
+
+ 				<field name="posttext" type="textarea" 				
 					label="Text after" description="Text to display below times"  
 					default="" rows="5" cols="35" />				    	
 			</fieldset>
