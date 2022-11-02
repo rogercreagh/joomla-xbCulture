@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="package" version="3.9" method="upgrade">
-	<name>xbCulture Package</name>
+	<name>pkg_xbculture</name>
 	<packagename>xbculture</packagename>
-	<version>0.1.0.0</version>
-	<creationDate>26th October 2022</creationDate>
+	<version>0.1.1</version>
+	<creationDate>2nd November 2022</creationDate>
 	<author>Roger C-O</author>
 	<copyright>Copyright (c) Roger Creagh-Osborne, 2021. All rights reserved.</copyright>
 	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
 	<authorEmail>roger@crosborne.co.uk</authorEmail>
 	<authorUrl>www.crosborne.co.uk</authorUrl>
-	<xbpeople_version>0.9.9.8</xbpeople_version>
-	<xbbooks_version>0.9.9.8</xbbooks_version>
-	<xbfilms_version>0.9.9.8</xbfilms_version>
+	<xbpeople_version>0.9.9.9</xbpeople_version>
+	<xbbooks_version>0.9.9.9</xbbooks_version>
+	<xbfilms_version>0.9.9.9</xbfilms_version>
 	<xbculture_list_version>0.2.0</xbculture_list_version>
 	<xbculture_randimg_version>0.2.0</xbculture_randimg_version>
 	<xbculture_recent_version>0.2.0</xbculture_recent_version>
 	<url>https://www.crosborne.co.uk/xbculture</url>
 	<packager>Roger C-O</packager>
-	<packagerurl>https://www.crosborne.co.uk/xbcultures</packagerurl>
-	<description>Package contains xbBooks, xbFilms, and xbPeople Components together with modules xbCulture-list, xbCulture-randimg, and xbCulture-recent</description>
+	<packagerurl>https://www.crosborne.co.uk/xbculture</packagerurl>
+	<description>PKG_XBCULTURE_XML_DESCRIPTION</description>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.pkg_xbculture.sys.ini</language>
+	</languages>
 	<updateservers>
-	    <server type="extension" priority="1" name="xbBooks Package">
+	    <server type="extension" priority="1" name="xbCulture Package">
 	    	https://crosborne.co.uk/jupdates/update_pkg_xbculture.xml
 	    </server>
 	</updateservers>
 	<scriptfile>pkg_xbculture_script.php</scriptfile>
 	<files folder="packages">
-		<file type="component" id="com_xbpeople" >com_xbpeople_v0.9.9.8.zip</file>
-		<file type="component" id="com_xbbooks" >com_xbbooks_v0.9.9.8.zip</file>
-		<file type="component" id="com_xbfilms" >com_xbfilms_v0.9.9.8.zip</file>
-		<file type="module" id="mod_xbculture_list" >mod_xbculture_list_v0.2.0.zip</file>
-		<file type="module" id="mod_xbculture_randimg" >mod_xbculture_randimg_v0.2.0.zip</file>
-		<file type="module" id="mod_xbculture_recent" >mod_xbculture_recent_v0.2.0.zip</file>
+		<file type="component" id="com_xbpeople" >com_xbpeople_v0.9.9.9.zip</file>
+		<file type="component" id="com_xbbooks" >com_xbbooks_v0.9.9.9.zip</file>
+		<file type="component" id="com_xbfilms" >com_xbfilms_v0.9.9.9.zip</file>
+		<file type="module" id="mod_xbculture_list" client="site">mod_xbculture_list_v0.2.0.zip</file>
+		<file type="module" id="mod_xbculture_randimg" client="site">mod_xbculture_randimg_v0.2.0.zip</file>
+		<file type="module" id="mod_xbculture_recent" client="site">mod_xbculture_recent_v0.2.0.zip</file>
 	</files>
 </extension>
