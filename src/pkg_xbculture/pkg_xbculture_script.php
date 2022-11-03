@@ -2,7 +2,7 @@
 /**
  * @package xbCulture-Package
  * @filesource pkg_xbculture_script.php
- * @version 0.1.0.0 26th October 2022
+ * @version 0.1.1 3rd November 2022
  * @desc install, upgrade and uninstall actions
  * @author Roger C-O
  * @copyright (C) Roger Creagh-Osborne, 2022
@@ -95,7 +95,7 @@ class pkg_xbcultureInstallerScript
 	    	echo '<div style="padding: 7px; margin: 0 0 8px; list-style: none; -webkit-border-radius: 4px; -moz-border-radius: 4px;
 		border-radius: 4px; background-image: linear-gradient(#ffffff,#efefef); border: solid 1px #ccc;">';
 	    	echo '<h3>xbCulture Package installed</h3>';
-	    	echo '<p>Package version '.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate.'<br />';
+	    	echo '<p>Package version <b>'.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate.'</b><br />';
 	    	echo 'Extensions included: </p>';
 	    	echo '<ul><li><b>xbBooks '.$parent->get('manifest')->xbbooks_version.'</b>: manage/display books details and reviews</li>';
 	    	echo '<li><b>xbFilms v.' . $parent->get('manifest')->xbfilms_version . '</b>: manage/display films details and reviews</li>';
