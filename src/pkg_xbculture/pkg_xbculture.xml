@@ -2,8 +2,8 @@
 <extension type="package" version="3.9" method="upgrade">
 	<name>pkg_xbculture</name>
 	<packagename>xbculture</packagename>
-	<version>0.1.1</version>
-	<creationDate>3rd November 2022</creationDate>
+	<version>0.1.2</version>
+	<creationDate>8th November 2022</creationDate>
 	<author>Roger C-O</author>
 	<copyright>Copyright (c) Roger Creagh-Osborne, 2021. All rights reserved.</copyright>
 	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
