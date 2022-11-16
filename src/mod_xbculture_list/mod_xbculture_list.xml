@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
 	<authorEmail>roger@crosborne.co.uk</authorEmail>
 	<authorUrl>www.crosborne.co.uk</authorUrl>
-	<version>0.2.0</version>
+	<version>0.2.0.1</version>
 	<description>MOD_XBCULTURE_LIST_XML_DESCRIPTION</description>
 	<files>
 		<filename>mod_xbculture_list.xml</filename>
@@ -243,7 +243,7 @@
     </config>
     <updateservers>
 		<server type="extension" priority="1" name="xbCulture_Recent Updates">
-			https://www.crosborne.uk/jupdates/upate_mod_xbculture_recent.xml
+			https://www.crosborne.uk/jupdates/update_mod_xbculture_recent.xml
 		</server>
 	</updateservers>
 </extension>
