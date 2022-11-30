@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_recent/tmpl/default.php
- * @version 0.2.0 28th October 2022
+ * @version 0.2.0.2 30th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -63,7 +63,7 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
 			        		echo '<span class="icon-thumbs-down xbred"></span>';
 			        	} else {
     			        	echo str_repeat('<span class="icon-star xbgold"></span>', $item->rating);
-    			        	echo '<br />'.HtmlHelper::date($item->rev_date , Text::_('d M Y'));
+    			        	echo '<br />'.HtmlHelper::date($item->rev_date , 'd M Y');
 			        	} ?>
 			        </span>
 			        <?php  else : ?>
@@ -71,10 +71,10 @@ $link = 'index.php?option=com_'.$comp.'&view='.$view.'&id=';
     			    		<span class="xb09">
         			    		<?php switch ($sortby) {
     			    		        case 'fdate':
-    			    		            $ddate = HtmlHelper::date($item->firstdate , Text::_('d M Y'));
+    			    		            $ddate = HtmlHelper::date($item->firstdate , 'd M Y');
     			    		            break;
     			    		        case 'ldate':
-    			    		            $ddate = HtmlHelper::date($item->lastdate , Text::_('d M Y'));
+    			    		            $ddate = HtmlHelper::date($item->lastdate , 'd M Y');
     			    		            break;
     			    		        default:
     			    		            $ddate = $item->year;

@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource mod_xbculture_recent/tmpl/default.php
- * @version 0.1.2 1st May 2021
+ * @version 0.2.0.1 30th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,7 +27,7 @@ use Joomla\CMS\Language\Text;
     	<?php if ($params->get('reviewed')) : ?>
         	<span class="xbhlt xbbold"><?php echo $item->rating;?></span><span class="icon-<?php echo ($item->rating==0 ? 'thumbs-down xbred':'star xbgold');?>"> </span>
     	<?php endif; ?>
-    	<span class="xb09"><?php echo HtmlHelper::date($item->odate , Text::_('d M Y'));?></span></span></li>
+    	<span class="xb09"><?php echo HtmlHelper::date($item->odate , 'd M Y');?></span></span></li>
 <?php } ?>
 </ul>
 <div class="xb095 xbdarkgrey">
