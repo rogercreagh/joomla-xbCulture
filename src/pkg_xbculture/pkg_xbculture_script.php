@@ -97,7 +97,7 @@ class pkg_xbcultureInstallerScript
 	    	echo '<h3>xbCulture Package installed</h3>';
 	    	echo '<p>Package version <b>'.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate.'</b><br />';
 	    	echo 'Extensions included: </p>';
-	    	echo '<ul><li><b>xbBooks '.$parent->get('manifest')->xbbooks_version.'</b>: manage/display books details and reviews</li>';
+	    	echo '<ul><li><b>xbBooks v.'.$parent->get('manifest')->xbbooks_version.'</b>: manage/display books details and reviews</li>';
 	    	echo '<li><b>xbFilms v.' . $parent->get('manifest')->xbfilms_version . '</b>: manage/display films details and reviews</li>';
 	    	echo '<li><b>xbPeople v.' . $parent->get('manifest')->xbpeople_version . '</b>: manage/display people &amp; characters</li>';
 	    	echo '<li><b>Module List v.' . $parent->get('manifest')->xbculture_list_version.'</b>: display a (partial) list of books/films</li>';
@@ -107,7 +107,7 @@ class pkg_xbcultureInstallerScript
 	    	echo '<p>For help and information see <a href="https://crosborne.co.uk/xbculture/doc" target="_blank">
 	            www.crosborne.co.uk/xbculture/doc</a></p>';
 	    	echo '<h4>Next steps</h4>';
-	    	echo '<p><b>Important</b> Before starting review &amp; set &amp; save each components options.&nbsp;&nbsp;';
+	    	echo '<p><b>Important</b> Before starting, review &amp; set &amp; save each component&apos;s options.&nbsp;&nbsp;';
 	    	echo 'Default values are provided but you need to save options to ensure they are picked up.';
 	    	echo '</p>';
 	    	echo '<p><b>Dashboard</b> <i>Each component has a Dashboard view which provides an overview of the component status</i>&nbsp;&nbsp;: ';
